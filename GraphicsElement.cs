@@ -8,11 +8,46 @@ namespace simple_drawing
 {
     class GraphicsElement
     {
-        GraphicsElement(Graphic g_in)
+        public GraphicsElement()
         {
 
         }
 
-        public virtual void draw();
+        public virtual void draw()
+        {
+
+        }
+    }
+
+    class Line : GraphicsElement
+    {
+        public Line()
+        {
+            
+        }
+    }
+
+    class Rectangle : GraphicsElement
+    {
+        public Rectangle()
+        {
+
+        }
+    }
+
+    class Ellipse : GraphicsElement
+    {
+        public Ellipse()
+        {
+
+        }
+    }
+
+    class Text : GraphicsElement
+    {
+        public Text()
+        {
+
+        }
     }
 }

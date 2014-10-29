@@ -34,19 +34,23 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.ControlsPanel = new System.Windows.Forms.Panel();
+            this.PenWidth = new System.Windows.Forms.ListBox();
+            this.FillColor = new System.Windows.Forms.ListBox();
+            this.PenColor = new System.Windows.Forms.ListBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TextButton = new System.Windows.Forms.RadioButton();
+            this.EllipseButton = new System.Windows.Forms.RadioButton();
+            this.RectangleButton = new System.Windows.Forms.RadioButton();
+            this.LineButton = new System.Windows.Forms.RadioButton();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.DrawPanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.ControlsPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,20 +100,130 @@
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             // 
-            // panel1
+            // ControlsPanel
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.checkBox2);
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(584, 261);
-            this.panel1.TabIndex = 1;
+            this.ControlsPanel.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.ControlsPanel.Controls.Add(this.PenWidth);
+            this.ControlsPanel.Controls.Add(this.FillColor);
+            this.ControlsPanel.Controls.Add(this.PenColor);
+            this.ControlsPanel.Controls.Add(this.groupBox1);
+            this.ControlsPanel.Controls.Add(this.checkBox2);
+            this.ControlsPanel.Controls.Add(this.checkBox1);
+            this.ControlsPanel.Controls.Add(this.label3);
+            this.ControlsPanel.Controls.Add(this.label1);
+            this.ControlsPanel.Controls.Add(this.label2);
+            this.ControlsPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ControlsPanel.Location = new System.Drawing.Point(0, 24);
+            this.ControlsPanel.Name = "ControlsPanel";
+            this.ControlsPanel.Size = new System.Drawing.Size(584, 261);
+            this.ControlsPanel.TabIndex = 1;
+            // 
+            // PenWidth
+            // 
+            this.PenWidth.FormattingEnabled = true;
+            this.PenWidth.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.PenWidth.Location = new System.Drawing.Point(469, 58);
+            this.PenWidth.Name = "PenWidth";
+            this.PenWidth.Size = new System.Drawing.Size(67, 134);
+            this.PenWidth.TabIndex = 9;
+            // 
+            // FillColor
+            // 
+            this.FillColor.FormattingEnabled = true;
+            this.FillColor.Items.AddRange(new object[] {
+            "White",
+            "Black",
+            "Red",
+            "Blue",
+            "Green"});
+            this.FillColor.Location = new System.Drawing.Point(368, 58);
+            this.FillColor.Name = "FillColor";
+            this.FillColor.Size = new System.Drawing.Size(59, 95);
+            this.FillColor.TabIndex = 8;
+            // 
+            // PenColor
+            // 
+            this.PenColor.FormattingEnabled = true;
+            this.PenColor.Items.AddRange(new object[] {
+            "Black",
+            "Red",
+            "Blue",
+            "Green"});
+            this.PenColor.Location = new System.Drawing.Point(269, 58);
+            this.PenColor.Name = "PenColor";
+            this.PenColor.Size = new System.Drawing.Size(60, 95);
+            this.PenColor.TabIndex = 7;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.TextButton);
+            this.groupBox1.Controls.Add(this.EllipseButton);
+            this.groupBox1.Controls.Add(this.RectangleButton);
+            this.groupBox1.Controls.Add(this.LineButton);
+            this.groupBox1.Location = new System.Drawing.Point(30, 38);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 174);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Draw";
+            // 
+            // TextButton
+            // 
+            this.TextButton.AutoSize = true;
+            this.TextButton.Location = new System.Drawing.Point(16, 92);
+            this.TextButton.Name = "TextButton";
+            this.TextButton.Size = new System.Drawing.Size(46, 17);
+            this.TextButton.TabIndex = 3;
+            this.TextButton.TabStop = true;
+            this.TextButton.Text = "Text";
+            this.TextButton.UseVisualStyleBackColor = true;
+            this.TextButton.CheckedChanged += new System.EventHandler(this.LineButton_CheckedChanged);
+            // 
+            // EllipseButton
+            // 
+            this.EllipseButton.AutoSize = true;
+            this.EllipseButton.Location = new System.Drawing.Point(16, 68);
+            this.EllipseButton.Name = "EllipseButton";
+            this.EllipseButton.Size = new System.Drawing.Size(55, 17);
+            this.EllipseButton.TabIndex = 2;
+            this.EllipseButton.TabStop = true;
+            this.EllipseButton.Text = "Ellipse";
+            this.EllipseButton.UseVisualStyleBackColor = true;
+            this.EllipseButton.CheckedChanged += new System.EventHandler(this.LineButton_CheckedChanged);
+            // 
+            // RectangleButton
+            // 
+            this.RectangleButton.AutoSize = true;
+            this.RectangleButton.Location = new System.Drawing.Point(16, 44);
+            this.RectangleButton.Name = "RectangleButton";
+            this.RectangleButton.Size = new System.Drawing.Size(74, 17);
+            this.RectangleButton.TabIndex = 1;
+            this.RectangleButton.TabStop = true;
+            this.RectangleButton.Text = "Rectangle";
+            this.RectangleButton.UseVisualStyleBackColor = true;
+            this.RectangleButton.CheckedChanged += new System.EventHandler(this.LineButton_CheckedChanged);
+            // 
+            // LineButton
+            // 
+            this.LineButton.AutoSize = true;
+            this.LineButton.Location = new System.Drawing.Point(16, 20);
+            this.LineButton.Name = "LineButton";
+            this.LineButton.Size = new System.Drawing.Size(45, 17);
+            this.LineButton.TabIndex = 0;
+            this.LineButton.TabStop = true;
+            this.LineButton.Text = "Line";
+            this.LineButton.UseVisualStyleBackColor = true;
+            this.LineButton.CheckedChanged += new System.EventHandler(this.LineButton_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -158,79 +272,32 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Fill Color";
             // 
-            // groupBox1
+            // DrawPanel
             // 
-            this.groupBox1.Controls.Add(this.radioButton4);
-            this.groupBox1.Controls.Add(this.radioButton3);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(30, 38);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 174);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Draw";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(16, 20);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(45, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Line";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(16, 44);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(74, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Rectangle";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(16, 68);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(55, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Ellipse";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(16, 92);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(46, 17);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Text";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.DrawPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.DrawPanel.Location = new System.Drawing.Point(0, 282);
+            this.DrawPanel.Name = "DrawPanel";
+            this.DrawPanel.Size = new System.Drawing.Size(584, 280);
+            this.DrawPanel.TabIndex = 2;
+            this.DrawPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawPanel_Paint);
+            this.DrawPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DrawPanel_MouseClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 562);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.DrawPanel);
+            this.Controls.Add(this.ControlsPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Lab 5 by Alexander Wong";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.ControlsPanel.ResumeLayout(false);
+            this.ControlsPanel.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -246,17 +313,21 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel ControlsPanel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton TextButton;
+        private System.Windows.Forms.RadioButton EllipseButton;
+        private System.Windows.Forms.RadioButton RectangleButton;
+        private System.Windows.Forms.RadioButton LineButton;
+        private System.Windows.Forms.ListBox PenColor;
+        private System.Windows.Forms.ListBox PenWidth;
+        private System.Windows.Forms.ListBox FillColor;
+        private System.Windows.Forms.Panel DrawPanel;
     }
 }
 

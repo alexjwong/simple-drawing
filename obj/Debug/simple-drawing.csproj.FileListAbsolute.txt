@@ -1,0 +1,9 @@
+c:\users\alex\documents\visual studio 2013\Projects\simple-drawing\bin\Debug\simple-drawing.exe.config
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\bin\Debug\simple-drawing.exe
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\bin\Debug\simple-drawing.pdb
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\obj\Debug\simple-drawing.csprojResolveAssemblyReference.cache
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\obj\Debug\simple_drawing.Form1.resources
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\obj\Debug\simple_drawing.Properties.Resources.resources
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\obj\Debug\simple-drawing.csproj.GenerateResource.Cache
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\obj\Debug\simple-drawing.exe
+C:\Users\Alex\documents\visual studio 2013\Projects\simple-drawing\obj\Debug\simple-drawing.pdb

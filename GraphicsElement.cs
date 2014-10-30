@@ -96,7 +96,7 @@ namespace simple_drawing
             // Set font (default)
             Font drawFont = new Font("Arial", 12, FontStyle.Regular);
 
-            g.DrawString(text, drawFont , BrushColor, location);
+            g.DrawString(text, drawFont, BrushColor, location);
         }
     }
 }

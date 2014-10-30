@@ -43,12 +43,13 @@
             this.EllipseButton = new System.Windows.Forms.RadioButton();
             this.RectangleButton = new System.Windows.Forms.RadioButton();
             this.LineButton = new System.Windows.Forms.RadioButton();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.OutlineCheckBox = new System.Windows.Forms.CheckBox();
+            this.FillCheckBox = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.DrawPanel = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.ControlsPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -97,7 +98,7 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
@@ -108,8 +109,8 @@
             this.ControlsPanel.Controls.Add(this.FillColor);
             this.ControlsPanel.Controls.Add(this.PenColor);
             this.ControlsPanel.Controls.Add(this.groupBox1);
-            this.ControlsPanel.Controls.Add(this.checkBox2);
-            this.ControlsPanel.Controls.Add(this.checkBox1);
+            this.ControlsPanel.Controls.Add(this.OutlineCheckBox);
+            this.ControlsPanel.Controls.Add(this.FillCheckBox);
             this.ControlsPanel.Controls.Add(this.label3);
             this.ControlsPanel.Controls.Add(this.label1);
             this.ControlsPanel.Controls.Add(this.label2);
@@ -137,6 +138,7 @@
             this.PenWidth.Name = "PenWidth";
             this.PenWidth.Size = new System.Drawing.Size(67, 134);
             this.PenWidth.TabIndex = 9;
+            this.PenWidth.SelectedIndexChanged += new System.EventHandler(this.PenWidth_SelectedIndexChanged);
             // 
             // FillColor
             // 
@@ -151,6 +153,7 @@
             this.FillColor.Name = "FillColor";
             this.FillColor.Size = new System.Drawing.Size(59, 95);
             this.FillColor.TabIndex = 8;
+            this.FillColor.SelectedIndexChanged += new System.EventHandler(this.FillColor_SelectedIndexChanged);
             // 
             // PenColor
             // 
@@ -164,9 +167,11 @@
             this.PenColor.Name = "PenColor";
             this.PenColor.Size = new System.Drawing.Size(60, 95);
             this.PenColor.TabIndex = 7;
+            this.PenColor.SelectedIndexChanged += new System.EventHandler(this.PenColor_SelectedIndexChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.TextButton);
             this.groupBox1.Controls.Add(this.EllipseButton);
             this.groupBox1.Controls.Add(this.RectangleButton);
@@ -226,25 +231,27 @@
             this.LineButton.UseVisualStyleBackColor = true;
             this.LineButton.CheckedChanged += new System.EventHandler(this.LineButton_CheckedChanged);
             // 
-            // checkBox2
+            // OutlineCheckBox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(338, 195);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(59, 17);
-            this.checkBox2.TabIndex = 5;
-            this.checkBox2.Text = "Outline";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.OutlineCheckBox.AutoSize = true;
+            this.OutlineCheckBox.Location = new System.Drawing.Point(338, 195);
+            this.OutlineCheckBox.Name = "OutlineCheckBox";
+            this.OutlineCheckBox.Size = new System.Drawing.Size(59, 17);
+            this.OutlineCheckBox.TabIndex = 5;
+            this.OutlineCheckBox.Text = "Outline";
+            this.OutlineCheckBox.UseVisualStyleBackColor = true;
+            this.OutlineCheckBox.CheckedChanged += new System.EventHandler(this.OutlineCheckBox_CheckedChanged);
             // 
-            // checkBox1
+            // FillCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(338, 172);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(38, 17);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Fill";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.FillCheckBox.AutoSize = true;
+            this.FillCheckBox.Location = new System.Drawing.Point(338, 172);
+            this.FillCheckBox.Name = "FillCheckBox";
+            this.FillCheckBox.Size = new System.Drawing.Size(38, 17);
+            this.FillCheckBox.TabIndex = 4;
+            this.FillCheckBox.Text = "Fill";
+            this.FillCheckBox.UseVisualStyleBackColor = true;
+            this.FillCheckBox.CheckedChanged += new System.EventHandler(this.FillCheckBox_CheckedChanged);
             // 
             // label3
             // 
@@ -283,6 +290,14 @@
             this.DrawPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawPanel_Paint);
             this.DrawPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DrawPanel_MouseClick);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(16, 116);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(178, 52);
+            this.textBox1.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,6 +309,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Lab 5 by Alexander Wong";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawPanel_Paint);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ControlsPanel.ResumeLayout(false);
@@ -317,8 +333,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox OutlineCheckBox;
+        private System.Windows.Forms.CheckBox FillCheckBox;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton TextButton;
         private System.Windows.Forms.RadioButton EllipseButton;
@@ -328,6 +344,7 @@
         private System.Windows.Forms.ListBox PenWidth;
         private System.Windows.Forms.ListBox FillColor;
         private System.Windows.Forms.Panel DrawPanel;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

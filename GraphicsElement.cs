@@ -15,6 +15,7 @@ namespace simple_drawing
         public Point location = new Point();
 
         public Pen DrawPen;
+        public Brush DrawBrush;
         public Color FillColor;
 
         public GraphicsElement()
@@ -39,42 +40,49 @@ namespace simple_drawing
             this.DrawPen = pen_in;
         }
 
-        public override void Draw(Graphics g )
+        public override void Draw(Graphics g)
         {
             g.DrawLine(DrawPen, pt1, pt2);
+            Console.WriteLine("Line draw called");
         }
     }
 
     class Rectangle : GraphicsElement
     {
-        public int width, height;
+        private int width, height;
 
         public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in)
         {
             this.location = loc_in;
             this.width = width_in;
             this.height = height_in;
+            this.DrawPen = pen_in;
         }
 
         public override void Draw(Graphics g)
         {
+            // Fill before outline
+            // Default will fill the shape with white, making it look transparnet
+            // g.FillRectangle(DrawBrush, location.X, location.Y, width, height);
             g.DrawRectangle(DrawPen, location.X, location.Y, width, height);
         }
     }
 
     class Ellipse : GraphicsElement
     {
-        public int width, height;
+        private int width, height;
 
         public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in)
         {
             this.location = loc_in;
             this.width = width_in;
             this.height = height_in;
+            this.DrawPen = pen_in;
         }
 
         public override void Draw(Graphics g)
         {
+            // g.FillEllipse(DrawBrush, location.X, location.Y, width, height);
             g.DrawEllipse(DrawPen, location.X, location.Y, width, height);
         }
     }
@@ -82,12 +90,11 @@ namespace simple_drawing
     class Text : GraphicsElement
     {
         public string text;
-        public Brush BrushColor;
 
         public Text(string s_in, Brush brush_in, Point location_in)
         {
             this.text = s_in;
-            this.BrushColor = brush_in;
+            this.DrawBrush = brush_in;
             this.location = location_in;
         }
 
@@ -96,7 +103,7 @@ namespace simple_drawing
             // Set font (default)
             Font drawFont = new Font("Arial", 12, FontStyle.Regular);
 
-            g.DrawString(text, drawFont, BrushColor, location);
+            g.DrawString(text, drawFont, DrawBrush, location);
         }
     }
 }

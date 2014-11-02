@@ -18,10 +18,11 @@ namespace simple_drawing
 
         // Variable to track current state (ie what radio button of graphics objects is checked off)
         private string CurrentDraw;
-        private Pen CurrentPen;
-        private Brush CurrentBrush;
-
-
+        private Brush CurrentBrush = Brushes.Black;
+        private Pen CurrentPen = Pens.Black;
+        private int CurrentPenWidth = 1;
+        private string CurrentText = "";
+        
         // Points to determine object location
         private Point point1, point2;
 
@@ -34,16 +35,6 @@ namespace simple_drawing
             InitializeComponent();
         }
 
-        private void LineButton_CheckedChanged(object sender, EventArgs e)
-        {
-            // All of the radio buttons in the "Draw" groupbox use this event handler
-            if (LineButton.Checked) CurrentDraw = "Line";
-            if (RectangleButton.Checked) CurrentDraw = "Rectangle";
-            if (EllipseButton.Checked) CurrentDraw = "Ellipse";
-            if (TextButton.Checked) CurrentDraw = "Text";
-
-            this.Invalidate();
-        }
 
         // All paint and clicks for the graphics objects happen in the lower panel
         private void DrawPanel_Paint(object sender, PaintEventArgs e)
@@ -52,9 +43,10 @@ namespace simple_drawing
             Graphics g = e.Graphics;
 
             // Draw each graphics element
-            foreach (GraphicsElement gobject in gobjects)
+            foreach (GraphicsElement gobject in this.gobjects)
             {
                 gobject.Draw(g);
+                Console.WriteLine("Drawing object " + gobject);
             }
 
             Console.WriteLine(gobjects.Count);
@@ -63,15 +55,19 @@ namespace simple_drawing
         private void DrawPanel_MouseClick(object sender, MouseEventArgs e)
         {
             // Both left and right clicks do the same thing
-            if (FirstClick)
+            if (FirstClick) // if First click happened, process second click
             {
-                Point point2 = new Point(e.X, e.Y);
+                point2 = new Point(e.X, e.Y);
+                Console.WriteLine(point2);
                 FirstClick = false;
+
+                // Make the current pen
+                CurrentPen = new Pen(CurrentBrush, CurrentPenWidth);
 
                 // Add the object after a second point has been determined
                 if (CurrentDraw == "Line")
                 {
-                    this.gobjects.Add(new Line(Pens.Black, point1, point2));
+                    this.gobjects.Add(new Line(CurrentPen, point1, point2));
                 }
                 else if (CurrentDraw == "Rectangle")
                 {
@@ -88,7 +84,7 @@ namespace simple_drawing
                 }
                 else if (CurrentDraw == "Text")
                 {
-                    this.gobjects.Add(new Text("test", CurrentBrush, point1));
+                    this.gobjects.Add(new Text(CurrentText, CurrentBrush, point1));
                 }
                 else
                 {
@@ -100,11 +96,14 @@ namespace simple_drawing
             }
             else
             {
-                Point point1 = new Point(e.X, e.Y);
+                point1 = new Point(e.X, e.Y);
+                Console.WriteLine(point1);
                 FirstClick = true;
                 this.Invalidate();
             }
-            
+
+            // Force the paint to be called by refreshing the panel upon clicks
+            // DrawPanel.Refresh();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -113,6 +112,19 @@ namespace simple_drawing
             this.gobjects.RemoveAt(gobjects.Count-1);
         }
 
+        private void LineButton_CheckedChanged(object sender, EventArgs e)
+        {
+            // All of the radio buttons in the "Draw" groupbox use this event handler
+            // This controls the 'state,' or what object we're currently equipped to add
+            if (LineButton.Checked) CurrentDraw = "Line";
+            if (RectangleButton.Checked) CurrentDraw = "Rectangle";
+            if (EllipseButton.Checked) CurrentDraw = "Ellipse";
+            if (TextButton.Checked) CurrentDraw = "Text";
+
+            this.Invalidate();
+        }
+
+
         private void PenColor_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Key:
@@ -120,61 +132,72 @@ namespace simple_drawing
             // 1 = Red
             // 2 = Blue
             // 3 = Green
+
+            // This acutally changed the brush color.
+            // The brush color is used in the paint handler along with the width to create the Pen.
             switch(PenColor.SelectedIndex)
             {
                 case 0:
                     {
-                        CurrentPen = Pens.Black;
                         CurrentBrush = Brushes.Black;
                         break;
                     }
                 case 1:
                     {
-                        CurrentPen = Pens.Red;
                         CurrentBrush = Brushes.Red;
                         break;
                     }
                 case 2:
                     {
-                        CurrentPen = Pens.Blue;
                         CurrentBrush = Brushes.Blue;
                         break;
                     }
-                    
                 case 3:
                     {
-                        CurrentPen = Pens.Green;
                         CurrentBrush = Brushes.Green;
                         break;
                     }
                     
                 default:
                     {
-                        CurrentPen = Pens.Black;
                         CurrentBrush = Brushes.Black;
                         break;
                     }
             }
+            this.Invalidate();
         }
 
         private void FillColor_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            this.Invalidate();
         }
 
         private void PenWidth_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            CurrentPenWidth = PenWidth.SelectedIndex + 1;
+            this.Invalidate();
         }
 
         private void FillCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-        
+            this.Invalidate();
         }
 
-        private void OutlineCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-        
+            CurrentText = textBox1.Text;
+            this.Invalidate();
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gobjects.Clear();
+            this.Invalidate();
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            DrawPanel.Refresh();
         }
     }
 }

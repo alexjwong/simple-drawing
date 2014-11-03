@@ -35,6 +35,12 @@ namespace simple_drawing
         public Form1()
         {
             InitializeComponent();
+
+            // Set default values for controls
+            this.PenColor.SetSelected(0, true);
+            this.FillColor.SetSelected(0, true);
+            this.PenWidth.SetSelected(0, true);
+            this.LineButton.Select();
         }
 
         // All paint and clicks for the graphics objects happen in the lower panel
@@ -47,7 +53,6 @@ namespace simple_drawing
             foreach (GraphicsElement gobject in this.gobjects)
             {
                 gobject.Draw(g);
-                Console.WriteLine("Drawing object " + gobject);
             }
         }
 

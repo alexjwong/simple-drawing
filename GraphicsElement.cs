@@ -42,7 +42,6 @@ namespace simple_drawing
         public override void Draw(Graphics g)
         {
             g.DrawLine(DrawPen, pt1, pt2);
-            Console.WriteLine("Line draw called");
         }
     }
 
@@ -60,7 +59,6 @@ namespace simple_drawing
             this.Fill = fill_in;
             this.Outline = outline_in;
             DrawBrush = fillcolor_in;
-
         }
 
         public override void Draw(Graphics g)

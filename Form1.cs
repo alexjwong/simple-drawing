@@ -12,7 +12,6 @@ namespace simple_drawing
 {
     public partial class Form1 : Form
     {
-
         // Array list of all graphics objects
         private List<GraphicsElement> gobjects = new List<GraphicsElement>();
 
@@ -27,9 +26,7 @@ namespace simple_drawing
         
         // Points to determine object location
         private Point point1, point2;
-
-        // Temp point for use in switching
-        private Point temp;
+        private Point origin;
 
         // boolean to determine whether the first click has been entered 
         // (in drawing the rectangle that contains the object
@@ -39,7 +36,6 @@ namespace simple_drawing
         {
             InitializeComponent();
         }
-
 
         // All paint and clicks for the graphics objects happen in the lower panel
         private void DrawPanel_Paint(object sender, PaintEventArgs e)
@@ -53,8 +49,6 @@ namespace simple_drawing
                 gobject.Draw(g);
                 Console.WriteLine("Drawing object " + gobject);
             }
-
-            Console.WriteLine(gobjects.Count);
         }
 
         private void DrawPanel_MouseClick(object sender, MouseEventArgs e)
@@ -63,7 +57,6 @@ namespace simple_drawing
             if (FirstClick) // if First click happened, process second click
             {
                 point2 = new Point(e.X, e.Y);
-                Console.WriteLine(point2);
                 FirstClick = false;
 
                 // Make the current pen
@@ -78,24 +71,31 @@ namespace simple_drawing
                 {
                     if (Fill || Outline)    // only add object if fill or outline is checked
                     {
+                        origin.X = Math.Min(point1.X, point2.X);
+                        origin.Y = Math.Min(point1.Y, point2.Y);
                         int recwidth = Math.Abs(point2.X - point1.X);
                         int recheight = Math.Abs(point2.Y - point1.Y);
                         // logic for determining bounding rectange from any two opposite corner clicks
-                        this.gobjects.Add(new Rectangle(CurrentPen, point1, recwidth, recheight, Fill, Outline, CurrentFill));
+                        this.gobjects.Add(new Rectangle(CurrentPen, origin, recwidth, recheight, Fill, Outline, CurrentFill));
                     }
                 }
                 else if (CurrentDraw == "Ellipse")
                 {
-                    if (Fill || Outline)
+                    if (Fill || Outline)    // only add object if fill or outline is checked
                     {
+                        origin.X = Math.Min(point1.X, point2.X);
+                        origin.Y = Math.Min(point1.Y, point2.Y);
                         int ellipsewidth = Math.Abs(point2.X - point1.X);
                         int ellipseheight = Math.Abs(point2.Y - point1.Y);
-                        this.gobjects.Add(new Ellipse(CurrentPen, point1, ellipsewidth, ellipseheight, Fill, Outline, CurrentFill));
+                        this.gobjects.Add(new Ellipse(CurrentPen, origin, ellipsewidth, ellipseheight, Fill, Outline, CurrentFill));
                     }
                 }
                 else if (CurrentDraw == "Text")
                 {
-                    this.gobjects.Add(new Text(CurrentText, CurrentBrush, point1));
+                    if (CurrentText != "")  // only add if there is actually text
+                    {
+                        this.gobjects.Add(new Text(CurrentText, CurrentBrush, point1));
+                    }
                 }
                 else
                 {
@@ -108,7 +108,6 @@ namespace simple_drawing
             else
             {
                 point1 = new Point(e.X, e.Y);
-                Console.WriteLine(point1);
                 FirstClick = true;
                 this.Invalidate();
             }
@@ -117,7 +116,11 @@ namespace simple_drawing
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Remove last element added to the graphics object list
-            this.gobjects.RemoveAt(gobjects.Count-1);
+            if (gobjects.Count != 0)    // making sure list is not empty
+            {
+                this.gobjects.RemoveAt(gobjects.Count - 1);
+            }
+            this.Invalidate();
         }
 
         private void LineButton_CheckedChanged(object sender, EventArgs e)

@@ -50,7 +50,6 @@ namespace simple_drawing
     {
         private int width, height;
         private bool Fill, Outline;
-        private Brush FillColor;
 
         public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in, Brush fillcolor_in)
         {
@@ -84,7 +83,6 @@ namespace simple_drawing
     {
         private int width, height;
         private bool Fill, Outline;
-        private Brush FillColor;
 
         public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in, Brush fillcolor_in)
         {
@@ -124,8 +122,7 @@ namespace simple_drawing
         public override void Draw(Graphics g)
         {
             // Set font (default)
-            Font drawFont = new Font("Arial", 12, FontStyle.Regular);
-
+            Font drawFont = new Font("Arial", 10, FontStyle.Regular);
             g.DrawString(text, drawFont, DrawBrush, location);
         }
     }

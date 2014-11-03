@@ -16,7 +16,6 @@ namespace simple_drawing
 
         public Pen DrawPen;
         public Brush DrawBrush;
-        public Color FillColor;
 
         public GraphicsElement()
         {
@@ -51,8 +50,9 @@ namespace simple_drawing
     {
         private int width, height;
         private bool Fill, Outline;
+        private Brush FillColor;
 
-        public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in)
+        public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in, Brush fillcolor_in)
         {
             this.location = loc_in;
             this.width = width_in;
@@ -60,7 +60,8 @@ namespace simple_drawing
             this.DrawPen = pen_in;
             this.Fill = fill_in;
             this.Outline = outline_in;
-            DrawBrush = DrawPen.Brush;
+            DrawBrush = fillcolor_in;
+
         }
 
         public override void Draw(Graphics g)
@@ -83,8 +84,9 @@ namespace simple_drawing
     {
         private int width, height;
         private bool Fill, Outline;
+        private Brush FillColor;
 
-        public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in)
+        public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in, Brush fillcolor_in)
         {
             this.location = loc_in;
             this.width = width_in;
@@ -92,7 +94,7 @@ namespace simple_drawing
             this.DrawPen = pen_in;
             this.Fill = fill_in;
             this.Outline = outline_in;
-            DrawBrush = DrawPen.Brush;
+            DrawBrush = fillcolor_in;
         }
 
         public override void Draw(Graphics g)

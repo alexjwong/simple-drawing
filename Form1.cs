@@ -19,6 +19,7 @@ namespace simple_drawing
         // Variable to track current state (ie what radio button of graphics objects is checked off)
         private string CurrentDraw;
         private Brush CurrentBrush = Brushes.Black;
+        private Brush CurrentFill = Brushes.White;
         private Pen CurrentPen = Pens.Black;
         private int CurrentPenWidth = 1;
         private string CurrentText = "";
@@ -75,16 +76,22 @@ namespace simple_drawing
                 }
                 else if (CurrentDraw == "Rectangle")
                 {
-                    int recwidth = Math.Abs(point2.X - point1.X);
-                    int recheight = Math.Abs(point2.Y - point1.X);
-                    // logic for determining bounding rectange from any two opposite corner clicks
-                    this.gobjects.Add(new Rectangle(CurrentPen, point1, recwidth, recheight, Fill, Outline));
+                    if (Fill || Outline)    // only add object if fill or outline is checked
+                    {
+                        int recwidth = Math.Abs(point2.X - point1.X);
+                        int recheight = Math.Abs(point2.Y - point1.Y);
+                        // logic for determining bounding rectange from any two opposite corner clicks
+                        this.gobjects.Add(new Rectangle(CurrentPen, point1, recwidth, recheight, Fill, Outline, CurrentFill));
+                    }
                 }
                 else if (CurrentDraw == "Ellipse")
                 {
-                    int ellipsewidth = Math.Abs(point2.X - point1.X);
-                    int ellipseheight = Math.Abs(point2.Y - point1.X);
-                    this.gobjects.Add(new Ellipse(CurrentPen, point1, ellipsewidth, ellipseheight, Fill, Outline));
+                    if (Fill || Outline)
+                    {
+                        int ellipsewidth = Math.Abs(point2.X - point1.X);
+                        int ellipseheight = Math.Abs(point2.Y - point1.Y);
+                        this.gobjects.Add(new Ellipse(CurrentPen, point1, ellipsewidth, ellipseheight, Fill, Outline, CurrentFill));
+                    }
                 }
                 else if (CurrentDraw == "Text")
                 {
@@ -134,42 +141,38 @@ namespace simple_drawing
             // 2 = Blue
             // 3 = Green
 
-            // This acutally changed the brush color.
+            // This changes the brush color.
             // The brush color is used in the paint handler along with the width to create the Pen.
             switch(PenColor.SelectedIndex)
             {
-                case 0:
-                    {
-                        CurrentBrush = Brushes.Black;
-                        break;
-                    }
-                case 1:
-                    {
-                        CurrentBrush = Brushes.Red;
-                        break;
-                    }
-                case 2:
-                    {
-                        CurrentBrush = Brushes.Blue;
-                        break;
-                    }
-                case 3:
-                    {
-                        CurrentBrush = Brushes.Green;
-                        break;
-                    }
-                    
-                default:
-                    {
-                        CurrentBrush = Brushes.Black;
-                        break;
-                    }
+                case 0: CurrentBrush = Brushes.Black; break;
+                case 1: CurrentBrush = Brushes.Red; break;
+                case 2: CurrentBrush = Brushes.Blue; break;
+                case 3: CurrentBrush = Brushes.Green; break;
+                default: CurrentBrush = Brushes.Black; break;
             }
             this.Invalidate();
         }
 
         private void FillColor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Key:
+            // 0 = White
+            // 1 = Black
+            // 2 = Red
+            // 3 = Blue
+            // 4 = Green
+
+            // Fill color is just a brush color
+            switch (FillColor.SelectedIndex)
+            {
+                case 0: CurrentFill = Brushes.White; break;
+                case 1: CurrentFill = Brushes.Black; break;
+                case 2: CurrentFill = Brushes.Red; break;
+                case 3: CurrentFill = Brushes.Blue; break;
+                case 4: CurrentFill = Brushes.Green; break;
+                default: CurrentFill = Brushes.Black; break;
+            }
             this.Invalidate();
         }
 

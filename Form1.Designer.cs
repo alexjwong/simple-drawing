@@ -245,10 +245,10 @@
             // DrawPanel
             // 
             this.DrawPanel.BackColor = System.Drawing.Color.White;
-            this.DrawPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DrawPanel.Location = new System.Drawing.Point(0, 282);
+            this.DrawPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DrawPanel.Location = new System.Drawing.Point(0, 285);
             this.DrawPanel.Name = "DrawPanel";
-            this.DrawPanel.Size = new System.Drawing.Size(584, 280);
+            this.DrawPanel.Size = new System.Drawing.Size(584, 277);
             this.DrawPanel.TabIndex = 2;
             this.DrawPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawPanel_Paint);
             this.DrawPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DrawPanel_MouseClick);
@@ -272,7 +272,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 

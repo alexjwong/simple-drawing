@@ -202,6 +202,7 @@
             this.OutlineCheckBox.TabIndex = 5;
             this.OutlineCheckBox.Text = "Outline";
             this.OutlineCheckBox.UseVisualStyleBackColor = true;
+            this.OutlineCheckBox.CheckedChanged += new System.EventHandler(this.OutlineCheckBox_CheckedChanged);
             // 
             // FillCheckBox
             // 
@@ -271,8 +272,9 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 

@@ -22,9 +22,13 @@ namespace simple_drawing
         private Pen CurrentPen = Pens.Black;
         private int CurrentPenWidth = 1;
         private string CurrentText = "";
+        private bool Fill, Outline = false;
         
         // Points to determine object location
         private Point point1, point2;
+
+        // Temp point for use in switching
+        private Point temp;
 
         // boolean to determine whether the first click has been entered 
         // (in drawing the rectangle that contains the object
@@ -74,13 +78,13 @@ namespace simple_drawing
                     int recwidth = Math.Abs(point2.X - point1.X);
                     int recheight = Math.Abs(point2.Y - point1.X);
                     // logic for determining bounding rectange from any two opposite corner clicks
-                    this.gobjects.Add(new Rectangle(CurrentPen, point1, recwidth, recheight));
+                    this.gobjects.Add(new Rectangle(CurrentPen, point1, recwidth, recheight, Fill, Outline));
                 }
                 else if (CurrentDraw == "Ellipse")
                 {
                     int ellipsewidth = Math.Abs(point2.X - point1.X);
                     int ellipseheight = Math.Abs(point2.Y - point1.X);
-                    this.gobjects.Add(new Ellipse(CurrentPen, point1, ellipsewidth, ellipseheight));
+                    this.gobjects.Add(new Ellipse(CurrentPen, point1, ellipsewidth, ellipseheight, Fill, Outline));
                 }
                 else if (CurrentDraw == "Text")
                 {
@@ -101,9 +105,6 @@ namespace simple_drawing
                 FirstClick = true;
                 this.Invalidate();
             }
-
-            // Force the paint to be called by refreshing the panel upon clicks
-            // DrawPanel.Refresh();
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -178,11 +179,6 @@ namespace simple_drawing
             this.Invalidate();
         }
 
-        private void FillCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.Invalidate();
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             CurrentText = textBox1.Text;
@@ -197,7 +193,26 @@ namespace simple_drawing
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            // use the Form paint event to continually refresh the DrawPanel
+            // and force DrawPanel_Paint to be called
             DrawPanel.Refresh();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void FillCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Fill = !Fill;
+            this.Invalidate();
+        }
+
+        private void OutlineCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Outline = !Outline;
+            this.Invalidate();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace simple_drawing
             this.pt2 = pt2_in;
             this.DrawPen = pen_in;
         }
-
+          
         public override void Draw(Graphics g)
         {
             g.DrawLine(DrawPen, pt1, pt2);
@@ -50,13 +50,17 @@ namespace simple_drawing
     class Rectangle : GraphicsElement
     {
         private int width, height;
+        private bool Fill, Outline;
 
-        public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in)
+        public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in)
         {
             this.location = loc_in;
             this.width = width_in;
             this.height = height_in;
             this.DrawPen = pen_in;
+            this.Fill = fill_in;
+            this.Outline = outline_in;
+            DrawBrush = DrawPen.Brush;
         }
 
         public override void Draw(Graphics g)
@@ -64,26 +68,43 @@ namespace simple_drawing
             // Fill before outline
             // Default will fill the shape with white, making it look transparnet
             // g.FillRectangle(DrawBrush, location.X, location.Y, width, height);
-            g.DrawRectangle(DrawPen, location.X, location.Y, width, height);
+            if (Fill)
+            {
+                g.FillRectangle(DrawBrush, location.X, location.Y, width, height);
+            }
+            if (Outline)
+            {
+                g.DrawRectangle(DrawPen, location.X, location.Y, width, height);
+            }
         }
     }
 
     class Ellipse : GraphicsElement
     {
         private int width, height;
+        private bool Fill, Outline;
 
-        public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in)
+        public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in)
         {
             this.location = loc_in;
             this.width = width_in;
             this.height = height_in;
             this.DrawPen = pen_in;
+            this.Fill = fill_in;
+            this.Outline = outline_in;
+            DrawBrush = DrawPen.Brush;
         }
 
         public override void Draw(Graphics g)
         {
-            // g.FillEllipse(DrawBrush, location.X, location.Y, width, height);
-            g.DrawEllipse(DrawPen, location.X, location.Y, width, height);
+            if (Fill)
+            {
+                g.FillEllipse(DrawBrush, location.X, location.Y, width, height);
+            }
+            if (Outline)
+            {
+                g.DrawEllipse(DrawPen, location.X, location.Y, width, height);
+            }
         }
     }
 

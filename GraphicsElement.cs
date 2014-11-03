@@ -13,7 +13,10 @@ namespace simple_drawing
     {
         // Origin of each graphics object
         public Point location = new Point();
+        // Width and height of containing rectangle
+        public int width, height;
 
+        // Current pen and brush being used to draw graphics elements
         public Pen DrawPen;
         public Brush DrawBrush;
 
@@ -24,7 +27,7 @@ namespace simple_drawing
 
         public virtual void Draw(Graphics g)
         {
-
+            // Graphics object for the graphics element to be drawn on
         }
     }
 
@@ -47,7 +50,7 @@ namespace simple_drawing
 
     class Rectangle : GraphicsElement
     {
-        private int width, height;
+        // bools to determine if drawing fill, outline, or both
         private bool Fill, Outline;
 
         public Rectangle(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in, Brush fillcolor_in)
@@ -58,14 +61,12 @@ namespace simple_drawing
             this.DrawPen = pen_in;
             this.Fill = fill_in;
             this.Outline = outline_in;
-            DrawBrush = fillcolor_in;
+            this.DrawBrush = fillcolor_in;
         }
 
         public override void Draw(Graphics g)
         {
             // Fill before outline
-            // Default will fill the shape with white, making it look transparnet
-            // g.FillRectangle(DrawBrush, location.X, location.Y, width, height);
             if (Fill)
             {
                 g.FillRectangle(DrawBrush, location.X, location.Y, width, height);
@@ -79,7 +80,7 @@ namespace simple_drawing
 
     class Ellipse : GraphicsElement
     {
-        private int width, height;
+        // bools to determine if drawing fill, outline, or both
         private bool Fill, Outline;
 
         public Ellipse(Pen pen_in, Point loc_in, int width_in, int height_in, bool fill_in, bool outline_in, Brush fillcolor_in)
@@ -90,11 +91,12 @@ namespace simple_drawing
             this.DrawPen = pen_in;
             this.Fill = fill_in;
             this.Outline = outline_in;
-            DrawBrush = fillcolor_in;
+            this.DrawBrush = fillcolor_in;
         }
 
         public override void Draw(Graphics g)
         {
+            // Fill before outline
             if (Fill)
             {
                 g.FillEllipse(DrawBrush, location.X, location.Y, width, height);
@@ -110,18 +112,23 @@ namespace simple_drawing
     {
         public string text;
 
-        public Text(string s_in, Brush brush_in, Point location_in)
+        public Text(string s_in, Brush brush_in, Point location_in, int width_in, int height_in)
         {
             this.text = s_in;
             this.DrawBrush = brush_in;
             this.location = location_in;
+            this.width = width_in;
+            this.height = height_in;
         }
 
         public override void Draw(Graphics g)
         {
             // Set font (default)
             Font drawFont = new Font("Arial", 10, FontStyle.Regular);
-            g.DrawString(text, drawFont, DrawBrush, location);
+            // Containing rectangle for the text string
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(location, new Size(width, height));
+            // Draw this string with the containing rectangle
+            g.DrawString(text, drawFont, DrawBrush, rect);
         }
     }
 }

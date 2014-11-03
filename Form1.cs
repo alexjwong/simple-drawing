@@ -29,7 +29,7 @@ namespace simple_drawing
         private Point origin;
 
         // boolean to determine whether the first click has been entered 
-        // (in drawing the rectangle that contains the object
+        // (in drawing the rectangle that contains the object)
         private bool FirstClick = false;
 
         public Form1()
@@ -56,10 +56,17 @@ namespace simple_drawing
             }
         }
 
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            // use the Form paint event to continually refresh the DrawPanel
+            // and force DrawPanel_Paint to be called
+            DrawPanel.Refresh();
+        }
+
         private void DrawPanel_MouseClick(object sender, MouseEventArgs e)
         {
             // Both left and right clicks do the same thing
-            if (FirstClick) // if First click happened, process second click
+            if (FirstClick) // if first click happened, process second click
             {
                 point2 = new Point(e.X, e.Y);
                 FirstClick = false;
@@ -76,11 +83,12 @@ namespace simple_drawing
                 {
                     if (Fill || Outline)    // only add object if fill or outline is checked
                     {
+                        // Given the two points, find the upper left point to use as origin
                         origin.X = Math.Min(point1.X, point2.X);
                         origin.Y = Math.Min(point1.Y, point2.Y);
                         int recwidth = Math.Abs(point2.X - point1.X);
                         int recheight = Math.Abs(point2.Y - point1.Y);
-                        // logic for determining bounding rectange from any two opposite corner clicks
+                        // Add rectangle using origin
                         this.gobjects.Add(new Rectangle(CurrentPen, origin, recwidth, recheight, Fill, Outline, CurrentFill));
                     }
                 }
@@ -88,10 +96,12 @@ namespace simple_drawing
                 {
                     if (Fill || Outline)    // only add object if fill or outline is checked
                     {
+                        // Given the two points, find the upper left point to use as origin
                         origin.X = Math.Min(point1.X, point2.X);
                         origin.Y = Math.Min(point1.Y, point2.Y);
                         int ellipsewidth = Math.Abs(point2.X - point1.X);
                         int ellipseheight = Math.Abs(point2.Y - point1.Y);
+                        // Add ellipse using origin
                         this.gobjects.Add(new Ellipse(CurrentPen, origin, ellipsewidth, ellipseheight, Fill, Outline, CurrentFill));
                     }
                 }
@@ -99,7 +109,12 @@ namespace simple_drawing
                 {
                     if (CurrentText != "")  // only add if there is actually text
                     {
-                        this.gobjects.Add(new Text(CurrentText, CurrentBrush, point1));
+                        // Given the two points, find the upper left point to use as origin
+                        origin.X = Math.Min(point1.X, point2.X);
+                        origin.Y = Math.Min(point1.Y, point2.Y);
+                        int textwidth = Math.Abs(point2.X - point1.X);
+                        int textheight = Math.Abs(point2.Y - point1.Y);
+                        this.gobjects.Add(new Text(CurrentText, CurrentBrush, origin, textwidth, textheight));
                     }
                 }
                 else
@@ -110,22 +125,13 @@ namespace simple_drawing
                
                 this.Invalidate();
             }
-            else
+            
+            else    // its the first click
             {
                 point1 = new Point(e.X, e.Y);
                 FirstClick = true;
                 this.Invalidate();
             }
-        }
-
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Remove last element added to the graphics object list
-            if (gobjects.Count != 0)    // making sure list is not empty
-            {
-                this.gobjects.RemoveAt(gobjects.Count - 1);
-            }
-            this.Invalidate();
         }
 
         private void LineButton_CheckedChanged(object sender, EventArgs e)
@@ -143,15 +149,9 @@ namespace simple_drawing
 
         private void PenColor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Key:
-            // 0 = Black
-            // 1 = Red
-            // 2 = Blue
-            // 3 = Green
-
             // This changes the brush color.
             // The brush color is used in the paint handler along with the width to create the Pen.
-            switch(PenColor.SelectedIndex)
+            switch(PenColor.SelectedIndex)  // use index of listbox to set corresponding color
             {
                 case 0: CurrentBrush = Brushes.Black; break;
                 case 1: CurrentBrush = Brushes.Red; break;
@@ -164,15 +164,8 @@ namespace simple_drawing
 
         private void FillColor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Key:
-            // 0 = White
-            // 1 = Black
-            // 2 = Red
-            // 3 = Blue
-            // 4 = Green
-
             // Fill color is just a brush color
-            switch (FillColor.SelectedIndex)
+            switch (FillColor.SelectedIndex)    // use index of listbox to set corresponding color
             {
                 case 0: CurrentFill = Brushes.White; break;
                 case 1: CurrentFill = Brushes.Black; break;
@@ -186,6 +179,7 @@ namespace simple_drawing
 
         private void PenWidth_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Set corresponding PenWidth.  Add 1 b/c index starts at 0
             CurrentPenWidth = PenWidth.SelectedIndex + 1;
             this.Invalidate();
         }
@@ -194,24 +188,6 @@ namespace simple_drawing
         {
             CurrentText = textBox1.Text;
             this.Invalidate();
-        }
-
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            gobjects.Clear();
-            this.Invalidate();
-        }
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            // use the Form paint event to continually refresh the DrawPanel
-            // and force DrawPanel_Paint to be called
-            DrawPanel.Refresh();
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
         private void FillCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -224,6 +200,27 @@ namespace simple_drawing
         {
             Outline = !Outline;
             this.Invalidate();
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gobjects.Clear();
+            this.Invalidate();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Remove last element added to the graphics object list
+            if (gobjects.Count != 0)    // making sure list is not empty
+            {
+                this.gobjects.RemoveAt(gobjects.Count - 1);
+            }
+            this.Invalidate();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
